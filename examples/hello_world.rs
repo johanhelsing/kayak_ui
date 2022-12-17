@@ -31,10 +31,13 @@ pub fn widget_update_with_resource<
     State: PartialEq + Component + Clone,
 >(
     In((widget_context, entity, previous_entity)): In<(KayakWidgetContext, Entity, Entity)>,
-    my_resource: Res<Input<KeyCode>>,
+    keys: Res<Input<KeyCode>>,
     widget_param: WidgetParam<Props, State>,
 ) -> bool {
-    widget_param.has_changed(&widget_context, entity, previous_entity) || my_resource.is_changed()
+    widget_param.has_changed(&widget_context, entity, previous_entity)
+        || keys.just_pressed(KeyCode::Tab)
+        || keys.just_released(KeyCode::Tab)
+    // true
 }
 
 fn startup(
